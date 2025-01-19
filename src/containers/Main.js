@@ -1,35 +1,42 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Balance from "../components/Balance";
 import AddTransactions from "../components/AddTransactions";
-import { addTransaction, deleteTransaction } from "../redux/actions";
 import TransactionsList from "../components/TransactionsList";
 import IncomeExpense from "../components/IncomeExpense";
+import { addTransaction, deleteTransaction } from "../redux/actions";
 
-export class Main extends Component {
-  render() {
-    const { transactions, addTransaction, deleteTransaction } = this.props;
-    return (
-      <div className="container">
-        <Balance transactions={transactions} />
-        <IncomeExpense transactions={transactions}/>
-        <TransactionsList transactions={transactions} deleteTransaction={(id) => deleteTransaction(id)}/>
-        <AddTransactions
-          addTransaction={(transaction) => addTransaction(transaction)}
-          id={transactions[0] ? transactions[0].id + 1 : 1}
-        />
-      </div>
-    );
-  }
-}
+const Main = () => {
+  // Mengambil state dari Redux store
+  const transactions = useSelector((state) => state.transactions);
 
-const mapStateToProps = (state) => ({
-  transactions: state.transactions,
-});
+  // Menginisialisasi dispatch untuk mengirim action ke Redux
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch) => ({
-  addTransaction: (transaction) => dispatch(addTransaction(transaction)),
-  deleteTransaction: (id) => dispatch(deleteTransaction(id))
-});
+  // Fungsi untuk menambahkan transaksi
+  const handleAddTransaction = (transaction) => {
+    dispatch(addTransaction(transaction));
+  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+  // Fungsi untuk menghapus transaksi
+  const handleDeleteTransaction = (id) => {
+    dispatch(deleteTransaction(id));
+  };
+
+  return (
+    <div className="container">
+      <Balance transactions={transactions} />
+      <IncomeExpense transactions={transactions} />
+      <TransactionsList
+        transactions={transactions}
+        deleteTransaction={handleDeleteTransaction}
+      />
+      <AddTransactions
+        addTransaction={handleAddTransaction}
+        id={transactions[0] ? transactions[0].id + 1 : 1}
+      />
+    </div>
+  );
+};
+
+export default Main;

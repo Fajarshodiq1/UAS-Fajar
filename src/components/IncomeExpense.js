@@ -12,11 +12,11 @@ export default function IncomeExpense({ transactions }) {
     <div className="inc-exp-container">
       <div>
         <h4>Income</h4>
-        <p className="money plus">+${income}</p>
+        <p className="money plus">+Rp. {income}</p>
       </div>
       <div>
         <h4>Expenses</h4>
-        <p className="money minus">${expenses}</p>
+        <p className="money minus">Rp. {expenses}</p>
       </div>
     </div>
   );

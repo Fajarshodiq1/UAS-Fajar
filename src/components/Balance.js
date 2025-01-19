@@ -6,7 +6,7 @@ export default function Balance({ transactions }) {
   return (
     <div>
       <h4>Your Balance</h4>
-      <h1>${total}</h1>
+      <h1>Rp{total}</h1>
     </div>
   );
 }
